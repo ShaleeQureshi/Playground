@@ -1,21 +1,29 @@
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import java.io.InputStreamReader;
 
 public class S3 {
 
-    private HashSet<String> list;
+    private ArrayList<String> list;
+    private int count = -1;
+    private String needle;
+    private String hay;
 
-    public S3(HashSet<String> list) {
+    public S3(ArrayList<String> list, String needle, String hay) {
         this.list = list;
+        this.needle = needle;
+        this.hay = hay;
+        this.printPermutations(this.needle.toCharArray(), 0);
     }
 
-    public void printPermutations(char[] string, int currentIndex) {
+    private void printPermutations(char[] string, int currentIndex) {
 
         if (currentIndex == string.length - 1) {
             this.list.add(new String(string));
+            this.updateCount();
             return;
         }
 
@@ -29,16 +37,13 @@ public class S3 {
 
     }
 
-    public int getCount(String hay) {
+    private void updateCount() {
 
-        int count = 0;
-
-        for (String string : this.list) {
-            if (hay.contains(string)) {
-                count++;
+        for (int i = 0; i < this.list.size(); i++) {
+            if (this.hay.contains(this.list.get(i))) {
+                this.count++;
             }
         }
-        return count;
     }
 
     private void swap(char[] string, int i, int end) {
@@ -47,14 +52,16 @@ public class S3 {
         string[end] = temp;
     }
 
+    public int getCount() {
+        return this.count;
+    }
+
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String needle = reader.readLine();
         String hay = reader.readLine();
-        HashSet<String> list = new HashSet<String>();
-        S3 main = new S3(list);
-        main.printPermutations(needle.toCharArray(), 0);
-        System.out.println(main.getCount(hay));
+        S3 main = new S3(new ArrayList<String>(), needle, hay);
+        System.out.println(main.getCount());
     }
 
 }

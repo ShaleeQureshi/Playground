@@ -1,48 +1,59 @@
-
-import java.util.*;
-
-/**
- * Date: Dec 2020
- * 
- * @author Hussain Description: J2: Epidemiology
- */
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.io.InputStreamReader;
 
 public class Main {
+    private HashSet<String> list;
+    private int count = 0;
 
-    public static void main(String[] args) {
+    public Main(HashSet<String> list) {
+        this.list = list;
+    }
 
-        // prepare keyboard for scanner input
-        Scanner input = new Scanner(System.in);
+    public void printPermutations(char[] string, int currentIndex) {
 
-        // declare variables for input and store input into variables
-        int limit = input.nextInt();
-        int infected = input.nextInt();
-        int infectRate = input.nextInt();
-
-        input.close(); // Closing the Scanner Object
-
-        // day counter variable to keep track of days
-        int dayCounter = 0;
-        double total = infected; // Using a double since we will be working with exponents and powers
-
-        // Checking to see if the limit has already been reached
-        if (total == limit) {
-            System.out.println(1); // Outputting 1 then since it has been 1 day
+        if (currentIndex == string.length - 1) {
+            this.list.add(new String(string));
+            return;
         }
-        // If the limit has not been reached then the following will occur
-        else {
-            // Looping through as long as the limit has not been reached
-            while (total <= limit) {
-                dayCounter++; // Adding 1 to the dayCounter since an additional day has passed
 
-                // Calculating the total
-                // The total increases each day based on the rate multiplied by the initial
-                // amount and adding in the previous value
-                total = total + (Math.pow(infectRate, dayCounter) * infected);
+        for (int i = currentIndex; i < string.length; i++) {
+            if (string[i] != string[currentIndex] || i == currentIndex) {
+                swap(string, i, currentIndex);
+                printPermutations(string, currentIndex + 1);
+                swap(string, i, currentIndex);
             }
-            System.out.println(dayCounter); // Outputting the dayCounter
         }
 
+    }
+
+    public int getCount(String hay) {
+
+        this.list.stream().forEach(i -> {
+            if (hay.contains(i)) {
+                this.count++;
+            }
+        });
+
+        return this.count;
+    }
+
+    private void swap(char[] string, int i, int end) {
+        char temp = string[i];
+        string[i] = string[end];
+        string[end] = temp;
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String needle = reader.readLine();
+        String hay = reader.readLine();
+        HashSet<String> list = new HashSet<String>();
+        Main main = new Main(list);
+        main.printPermutations(needle.toCharArray(), 0);
+        System.out.println(main.getCount(hay));
     }
 
 }
