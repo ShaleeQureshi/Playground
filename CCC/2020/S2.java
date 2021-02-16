@@ -9,13 +9,15 @@ public class S2 {
     public static void main(String[] args) throws IOException {
 
         Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        int rowNum = Integer.parseInt(reader.readLine());
-        int colNum = Integer.parseInt(reader.readLine());
-        int[][] elements = new int[rowNum][colNum];
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in)); // Reader to get input
+        int rowNum = Integer.parseInt(reader.readLine()); // Getting row number
+        int colNum = Integer.parseInt(reader.readLine()); // Getting column number
 
+        int[][] elements = new int[rowNum][colNum]; // Creating the matrix
+
+        // Loop to add data to the matrix
         for (int i = 0; i < rowNum; i++) {
-            StringTokenizer tokens = new StringTokenizer(reader.readLine(), " ");
+            StringTokenizer tokens = new StringTokenizer(reader.readLine(), " "); // Dreating a Tokenizer object
             while (tokens.hasMoreTokens()) {
                 for (int j = 0; j < colNum; j++) {
                     elements[i][j] = Integer.parseInt(tokens.nextToken());
@@ -29,9 +31,10 @@ public class S2 {
 
     private static boolean isOut(int[][] elements, int row, int col, int rowIndex, int colIndex, boolean check,
             List<String> list) {
+
         boolean flag = false;
-        int i = 0;
-        while (i < elements.length) {
+        for (int i = 0; i < elements.length; i++)
+        {
             for (int j = 0; j < elements[i].length; j++) {
                 if (elements[i][j] == (rowIndex * colIndex) && !list.contains(i + "," + j)) {
                     list.add(i + "," + j);
@@ -46,7 +49,7 @@ public class S2 {
                     }
                 }
             }
-            i++;
+           
         }
         if (!flag) {
             return flag;
