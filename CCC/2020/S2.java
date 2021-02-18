@@ -17,7 +17,7 @@ public class S2 {
 
         // Loop to add data to the matrix
         for (int i = 0; i < rowNum; i++) {
-            StringTokenizer tokens = new StringTokenizer(reader.readLine(), " "); // Dreating a Tokenizer object
+            StringTokenizer tokens = new StringTokenizer(reader.readLine(), " "); // Creating a Tokenizer object
             while (tokens.hasMoreTokens()) {
                 for (int j = 0; j < colNum; j++) {
                     elements[i][j] = Integer.parseInt(tokens.nextToken());
